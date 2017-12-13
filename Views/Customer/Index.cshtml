@@ -1,0 +1,58 @@
+@{ ViewData["Title"] = "Customers"; } @model ECommerceManager.Models.AddCustomer
+
+<div class="container">
+    <br>
+    <div class="jumbotron">
+        <h1>Add a new customer</h1>
+        <br>
+        <form action="addcustomer" method="post">
+            <label asp-for="CustomerName"></label>
+            <input asp-for="CustomerName" class="form-control">
+            <span asp-validation-for="CustomerName" class="text-danger"></span>
+            <br>
+            <input type="submit" value="Add" class="btn btn-default">
+        </form>
+    </div>
+    <hr>
+    <form action="searchcustomers" method="post">
+        <input type="submit" value="Go" class="btn-sm btn-default pull-right">
+        <input type="text" name="CustomerSearch" placeholder="Search Name" class="form-control pull-right">
+    </form>
+    <br>
+    <br>
+    <table class="table table-bordered table-striped table-hover">
+        <thead>
+            <td>Customer Name</td>
+            <td>Created Date</td>
+            <td>Actions</td>
+        </thead>
+        @if(ViewBag.customersearch == null){
+             @foreach(var c in ViewBag.customer){
+            <tr>
+                <td>@c.CustomerName</td>
+                <td>@c.CreatedAt.ToString("MMM d yyyy")</td>
+                <td>
+                    <form action="removecustomer" method="post">
+                        <input type="hidden" name="CustomerId" value="@c.CustomerId">
+                        <input class="btn-xs btn-danger" type="submit" name="CustomerId" value="Remove">
+                    </form>
+                </td>
+            </tr>
+            }
+        }
+        else{
+             @foreach(var cs in ViewBag.customersearch){
+            <tr>
+                <td>@cs.CustomerName</td>
+                <td>@cs.CreatedAt.ToString("MMM d yyyy")</td>
+                <td>
+                    <form action="removecustomer" method="post">
+                        <input type="hidden" name="CustomerId" value="@cs.CustomerId">
+                        <input class="btn-xs btn-danger" type="submit" name="CustomerId" value="Remove">
+                    </form>
+                </td>
+            </tr>
+            }
+        }
+    </table>
+</div>

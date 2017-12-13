@@ -1,0 +1,67 @@
+@{
+    ViewData["Title"] = "Products";
+}
+
+<script>
+    $(document).ready(function(){
+        $(function () {
+            console.log("ready")
+            var select = $(".1-100");
+            for (i = 1; i <= 100; i++) {
+                console.log("appending")
+                select.append(`<option value=${i}>${i}</option>`);
+            }
+        });
+    })
+</script>
+
+@model ECommerceManager.Models.AddProduct
+<div class="container">
+    <div class="container col-lg-3 col-md-3 col-sm-3 col-xs-3"><br>
+        <form action="searchproducts" method="post">
+            <input type="text" name="ProductSearch" placeholder="Search.." class="form-control pull-right">
+            <input type="submit" value="Filter" class="btn-sm btn-default pull-right">
+        </form>
+        <br><br><br>
+        <form action="addproduct" method="post">
+            <h3>Add a new product</h3>
+            <label asp-for="ProductName"></label>
+            <input asp-for="ProductName" class="form-control" placeholder="Product name">
+            <span asp-validation-for="ProductName" class="text-danger"></span><br>
+
+            <label asp-for="Image"></label>
+            <input asp-for="Image" class="form-control" placeholder="http://">
+            <span asp-validation-for="Image" class="text-danger"></span><br>
+
+            <label asp-for="Description"></label>
+            <textarea asp-for="Description" class="form-control" cols="5" rows="3"></textarea>
+            <span asp-validation-for="Description" class="text-danger"></span><br>
+            
+            <label asp-for="Quantity"></label>
+            <select asp-for="Quantity" class="1-100 form-control"></select>
+            <span asp-validation-for="Quantity" class="text-danger"></span><br>
+
+            <input type="submit" value="Create" class="btn btn-primary pull-right">
+        </form>
+    </div>
+    <div class="container col-lg-9 col-md-9 col-sm-9 col-xs-9"><br>
+        @if(ViewBag.productsearch != null){
+             @foreach(var ps in ViewBag.productsearch){
+            <div class="container tents col-lg-2 col-md-2 col-sm-9 col-xs-9">
+                <img src="@ps.Image" alt="">
+                <p>@ps.ProductName</p>
+                <p>@ps.Quantity left</p>
+            </div>
+            }
+        }
+        else{
+             @foreach(var p in ViewBag.product){
+            <div class="container tents col-lg-2 col-md-2 col-sm-9 col-xs-9">
+                <img src="@p.Image" alt="">
+                <p>@p.ProductName</p>
+                <p>@p.Quantity left</p>
+            </div>
+            }
+        }
+    </div>
+</div>

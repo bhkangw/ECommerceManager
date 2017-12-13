@@ -1,0 +1,59 @@
+﻿@{
+    ViewData["Title"] = "Dashboard";
+}
+<!--time ago CDN! -->
+<script src="http://timeago.yarp.com/jquery.timeago.js"></script>
+<script>
+    $(document).ready(function () {
+        console.log("ad")
+            $(".timeago").timeago();
+        });
+</script>
+
+<div class="container">
+    <form action="searchindex" method="post">
+        <input type="submit" value="Filter" class="btn-sm btn-default pull-right">
+        <input type="text" name="ProductSearch" placeholder="Search products" class="form-control pull-right">
+    </form>
+</div>
+
+<div class="container">
+    <div>
+        @if(ViewBag.productsearch != null){
+             @foreach(var ps in ViewBag.productsearch){
+            <div class="container tents col-lg-2 col-md-2 col-sm-9 col-xs-9">
+                <img src="@ps.Image" alt="">
+                <p>@ps.ProductName</p>
+                <p>@ps.Quantity left</p>
+            </div>
+            }
+         }
+         else{
+             @foreach(var p in ViewBag.product){
+            <div class="container tents col-lg-2 col-md-2 col-sm-9 col-xs-9">
+                <img src="@p.Image" alt="">
+                <p>@p.ProductName</p>
+                <p>@p.Quantity left</p>
+            </div>
+            }
+         }
+         
+    </div>
+</div>
+<div class="container">
+    <div class="jumbotron">
+        <h1>Recent Orders</h1>
+        @foreach(var o in ViewBag.order){
+            <p>@o.Customer.CustomerName purchased @o.Quantity @o.Product.ProductName (<span class="timeago" title="@o.CreatedAt">@o.CreatedAt</span>)</p>
+        }
+        <a href="orders" class="text-center">See More Orders</a>
+    </div>
+    <div class="jumbotron">
+        <h1>New Customers</h1>
+        @foreach(var c in ViewBag.customer){
+            <p>@c.CustomerName joined the store (<span class="timeago" title="@c.CreatedAt">(@c.CreatedAt)</span>)</p> <!--time ago jquery! -->
+        }
+        <a href="customers" class="text-center">See More Customers</a>
+    </div>
+    </div>
+</div>

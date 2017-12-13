@@ -1,0 +1,75 @@
+@{
+    ViewData["Title"] = "Orders";
+}
+
+<script>
+    $(document).ready(function () {
+        $(function () {
+            console.log("ready")
+            var select = $(".1-100");
+            for (i = 1; i <= 100; i++) {
+                console.log("appending")
+                select.append(`<option value=${i}>${i}</option>`);
+            }
+        });
+    })
+</script>
+
+<div class="container"><br>
+    <div class="jumbotron">
+        <h1>Add a new order</h1>
+        <form action="addorder" method="post">
+            <p>Customer 
+                <select name="Customer">
+                     @foreach(var c in ViewBag.customer){
+                    <option value="@c.CustomerId">@c.CustomerName</option>
+                     }
+                </select>
+            </p>
+            <p>Order
+                <select name="Quantity" class="1-100"></select> 
+
+                <select name="Product" class="">
+                    @foreach(var p in ViewBag.product){
+                    <option value="@p.ProductId">@p.ProductName</option>
+                    }
+                </select>
+            </p>
+            <input type="submit" value="Order" class="btn btn-primary">
+        </form>
+    </div>
+
+    <form action="searchorders" method="post">
+        <input type="submit" value="Go" class="btn-sm btn-default pull-right">
+        <input type="text" name="CustomerSearch" placeholder="Search Name" class="form-control pull-right">
+    </form><br><br>
+
+    <table class="table table-bordered table-striped table-hover">
+        <thead>
+            <td>Customer Name</td>
+            <td>Product</td>
+            <td>Quantity</td>
+            <td>Date</td>
+        </thead>
+        @if(ViewBag.ordersearch == null){
+             @foreach(var o in ViewBag.order){
+            <tr>
+                <td>@o.Customer.CustomerName</td>
+                <td>@o.Product.ProductName</td>
+                <td>@o.Quantity</td>
+                <td>@o.CreatedAt</td>
+            </tr>
+            }
+        }
+        else{
+             @foreach(var os in ViewBag.ordersearch){
+            <tr>
+                <td>@os.Customer.CustomerName</td>
+                <td>@os.Product.ProductName</td>
+                <td>@os.Quantity</td>
+                <td>@os.CreatedAt</td>
+            </tr>
+            }
+        }
+    </table>
+</div>
